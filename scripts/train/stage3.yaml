@@ -1,0 +1,54 @@
+# freeze llm, train vision encoder + projector
+datasets:
+  - json_path: /vlm/LLaVA-NeXT/json/blip558k_stage1.5_finetune_w_prompt_filt.json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/ko-blip558k_stage1.5_finetune_w_prompt_filt.json
+    sampling_strategy: "first:30%"
+  - json_path: /vlm/LLaVA-NeXT/json/cc3m_recap_data_prompt_v2_filt.json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/ureader_tr_processed.json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/llava-ko-recap-120k_filt.json
+    sampling_strategy: "first:30%"
+  # - json_path: /vlm/LLaVA-NeXT/json/evol_instruct_processed.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/ko-qarv-instruct-100k.json
+  #   sampling_strategy: "first:30%"
+  - json_path: /vlm/LLaVA-NeXT/json/synthdog_en_processed.json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/out-kor-llava_filt.json
+    sampling_strategy: "first:30%"
+  - json_path: /vlm/LLaVA-NeXT/json/synthdog-ko_filt.json
+    sampling_strategy: "first:10%"
+  - json_path: /vlm/LLaVA-NeXT/json/ai-hub_k-food_caption.json
+    sampling_strategy: "first:30%"
+  - json_path: /vlm/LLaVA-NeXT/json/ai-hub_chart_caption-270k.json
+    sampling_strategy: "first:10%"
+  - json_path: /vlm/LLaVA-NeXT/json/ai-hub_table_caption-363k.json
+    sampling_strategy: "first:10%"
+  - json_path: /vlm/LLaVA-NeXT/json/llavar_gpt4_20k.json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/sharegpt4o.json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/chart2text(cauldron).json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/ai2d(gpt4v).json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/geo170k(align).json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/infographic(gpt4v).json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/VisualWebInstruct(filtered).json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/rendered_text(cauldron).json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/lrv_normal(filtered).json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/allava_instruct_vflan4v.json
+    sampling_strategy: "first:5%"
+  # - json_path: /vlm/LLaVA-NeXT/json/korean_english_parallel_wiki_augmented_v1.json
+  #   sampling_strategy: "first:30%"
+  # - json_path: /vlm/LLaVA-NeXT/json/korean-writing-style-instruct.json
+  #   sampling_strategy: "first:5%"
+  # - json_path: /vlm/LLaVA-NeXT/json/korean_safe_conversation.json
+  #   sampling_strategy: "first:5%"
