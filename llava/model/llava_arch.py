@@ -190,6 +190,7 @@ class LlavaMetaForCausalLM(ABC):
         return image_feature
 
     def encode_images(self, images):
+        # [batch_size, num_patches(27*27 in siglip), dimension of embedding]
         image_features = self.get_model().get_vision_tower()(images)
         # image_features = self.get_model().vision_resampler(image_features, images=images)
         image_features = self.get_model().mm_projector(image_features)
@@ -377,6 +378,15 @@ class LlavaMetaForCausalLM(ABC):
                             image_feature = image_feature.permute(4, 0, 2, 1, 3).contiguous()
                             image_feature = image_feature.flatten(1, 2).flatten(2, 3)
                             image_feature = nn.functional.max_pool2d(image_feature, 2)
+                            image_feature = image_feature.flatten(1, 2).transpose(0, 1)
+                        elif "meanpooling3x3" in mm_patch_merge_type:
+                            # [embedding_dim, num_patch_height, height, num_patch_width, width]
+                            image_feature = image_feature.permute(4, 0, 2, 1, 3).contiguous()
+                            # [embedding_dim, num_patch_height * height, num_patch_width * width]
+                            image_feature = image_feature.flatten(1, 2).flatten(2, 3)
+                            # [embedding_dim, num_patch_height * height // 3, num_patch_width * width // 3]
+                            image_feature = nn.functional.avg_pool2d(image_feature, kernel_size=3, stride=3)
+                            # [final_num_patches, embedding_dim]
                             image_feature = image_feature.flatten(1, 2).transpose(0, 1)
                         elif "unpad" in mm_patch_merge_type and "anyres_max" in image_aspect_ratio and matched_anyres_max_num_patches:
                             unit = image_feature.shape[2]

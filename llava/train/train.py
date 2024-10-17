@@ -569,7 +569,7 @@ def preprocess_qwen(sources, tokenizer: transformers.PreTrainedTokenizer, has_im
         tokenizer.add_tokens(["<image>"], special_tokens=True)
 
     image_token_index = tokenizer.convert_tokens_to_ids("<image>")
-    im_start, im_end = tokenizer.additional_special_tokens_ids
+    im_start, im_end, *_ = tokenizer.additional_special_tokens_ids
     # unmask_tokens = ["<|im_start|>", "<|im_start|>", "\n"]
     unmask_tokens_idx =  [198, im_start, im_end]
     nl_tokens = tokenizer("\n").input_ids
@@ -1654,6 +1654,18 @@ def train(attn_implementation=None):
                 for p in model.get_model().vision_resampler.parameters():
                     p.requires_grad = True
             if "mm_vision_tower" in tunable_parts:
+                # # Stage 2: only unfreeze the last 4 layers of the vision tower
+                # unfreeze_layers = [
+                #     "model.vision_tower.vision_tower.vision_model.encoder.layers.22",
+                #     "model.vision_tower.vision_tower.vision_model.encoder.layers.23",
+                #     "model.vision_tower.vision_tower.vision_model.encoder.layers.24",
+                #     "model.vision_tower.vision_tower.vision_model.encoder.layers.25" 
+                # ]
+                # for name, param in model.named_parameters():
+                #     if any(layer in name for layer in unfreeze_layers):
+                #         param.requires_grad = True
+                #     elif "vision_tower" in name:
+                #         param.requires_grad = False
                 for name, param in model.named_parameters():
                     if "vision_tower" in name:
                         param.requires_grad_(True)
