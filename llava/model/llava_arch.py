@@ -351,9 +351,20 @@ class LlavaMetaForCausalLM(ABC):
                     elif image_feature.shape[0] > 1:  # multi patches and multi images operations
                         # rank0_print("Single-images")
                         base_image_feature = image_feature[0]
-                        image_feature = image_feature[1:]
                         height = width = self.get_vision_tower().num_patches_per_side
                         assert height * width == base_image_feature.shape[0]
+                        
+                        # do 3x3 meanpooling to the base image feature
+                        if "meanpool3x3" in mm_patch_merge_type:
+                            width = height = int(math.sqrt(base_image_feature.shape[0]))
+                            if height * width == base_image_feature.shape[0]:
+                                # reshape: [1, 27, 27, 1536] -> [1, 1536, 27, 27]
+                                base_image_feature = base_image_feature.reshape(1, height, width, -1).permute(0, 3, 1, 2)
+                                # [1, 1536, 27, 27] -> [1, 1536, 9, 9]
+                                base_image_feature = nn.functional.avg_pool2d(base_image_feature, kernel_size=3, stride=3)
+                                # [1, 1536, 9, 9] -> [1, 9, 9, 1536] -> [1, 81, 1536] -> [81, 1536]
+                                base_image_feature = base_image_feature.permute(0, 2, 3, 1).flatten(1, 2).squeeze(0)
+                        image_feature = image_feature[1:]
 
                         if "anyres_max" in image_aspect_ratio:
                             matched_anyres_max_num_patches = re.match(r"anyres_max_(\d+)", image_aspect_ratio)
@@ -374,12 +385,13 @@ class LlavaMetaForCausalLM(ABC):
                         else:
                             image_feature = image_feature.view(2, 2, height, width, -1)
 
+                        # apply operation to the image feature (anyres applied)
                         if "maxpool2x2" in mm_patch_merge_type:
                             image_feature = image_feature.permute(4, 0, 2, 1, 3).contiguous()
                             image_feature = image_feature.flatten(1, 2).flatten(2, 3)
                             image_feature = nn.functional.max_pool2d(image_feature, 2)
                             image_feature = image_feature.flatten(1, 2).transpose(0, 1)
-                        elif "meanpooling3x3" in mm_patch_merge_type:
+                        elif "meanpool3x3" in mm_patch_merge_type:
                             # [embedding_dim, num_patch_height, height, num_patch_width, width]
                             image_feature = image_feature.permute(4, 0, 2, 1, 3).contiguous()
                             # [embedding_dim, num_patch_height * height, num_patch_width * width]
@@ -412,13 +424,19 @@ class LlavaMetaForCausalLM(ABC):
                         if "nobase" in mm_patch_merge_type:
                             pass
                         else:
+                            # 기본 이미지 feature와 (2x2) 패치 이미지 feature를 합침
                             image_feature = torch.cat((base_image_feature, image_feature), dim=0)
                         new_image_features.append(image_feature)
                     else:  # single image operations
                         image_feature = image_feature[0]
-                        if "unpad" in mm_patch_merge_type:
+                        if "meanpool3x3" in mm_patch_merge_type:
+                            height = width = int(math.sqrt(image_feature.shape[0]))
+                            if height * width == image_feature.shape[0]:
+                                image_feature = image_feature.reshape(1, height, width, -1).permute(0, 3, 1, 2)
+                                image_feature = nn.functional.avg_pool2d(image_feature, kernel_size=3, stride=3)
+                                image_feature = image_feature.permute(0, 2, 3, 1).flatten(1, 2).squeeze(0)
+                        elif "unpad" in mm_patch_merge_type:
                             image_feature = torch.cat((image_feature, self.model.image_newline[None]), dim=0)
-
                         new_image_features.append(image_feature)
                 image_features = new_image_features
             else:
@@ -457,21 +475,27 @@ class LlavaMetaForCausalLM(ABC):
         cur_image_idx = 0
         # rank_print("Inserting Images embedding")
         for batch_idx, cur_input_ids in enumerate(input_ids):
+            # cur_input_ids 에 이미지 토큰이 몇 개 있는지
             num_images = (cur_input_ids == IMAGE_TOKEN_INDEX).sum()
             # rank0_print(num_images)
             if num_images == 0:
+                # current sample’s text input does not contain any image tokens
+                # 즉 어디에 image가 insert될지 explicit하게 명시되지 않았다는 것
                 cur_image_features = image_features[cur_image_idx]
                 cur_input_embeds_1 = self.get_model().embed_tokens(cur_input_ids)
+                # 빈 이미지 임베딩을 삽입
                 cur_input_embeds = torch.cat([cur_input_embeds_1, cur_image_features[0:0]], dim=0)
                 new_input_embeds.append(cur_input_embeds)
                 new_labels.append(labels[batch_idx])
                 cur_image_idx += 1
                 continue
 
+            # image token이 등장한 indices 파악
             image_token_indices = [-1] + torch.where(cur_input_ids == IMAGE_TOKEN_INDEX)[0].tolist() + [cur_input_ids.shape[0]]
             cur_input_ids_noim = []
             cur_labels = labels[batch_idx]
             cur_labels_noim = []
+            # split input IDs and labels (image token이 등장한 위치 기준)
             for i in range(len(image_token_indices) - 1):
                 cur_input_ids_noim.append(cur_input_ids[image_token_indices[i] + 1 : image_token_indices[i + 1]])
                 cur_labels_noim.append(cur_labels[image_token_indices[i] + 1 : image_token_indices[i + 1]])
@@ -481,6 +505,7 @@ class LlavaMetaForCausalLM(ABC):
             cur_new_input_embeds = []
             cur_new_labels = []
 
+            # 이미지 임베딩 삽입
             for i in range(num_images + 1):
                 cur_new_input_embeds.append(cur_input_embeds_no_im[i])
                 cur_new_labels.append(cur_labels_noim[i])
@@ -491,6 +516,7 @@ class LlavaMetaForCausalLM(ABC):
                         cur_image_features = image_features[cur_image_idx - 1]
                     cur_image_idx += 1
                     cur_new_input_embeds.append(cur_image_features)
+                    # 이미지 임베딩 삽입 위치에 대한 label은 IGNORE_INDEX로 설정
                     cur_new_labels.append(torch.full((cur_image_features.shape[0],), IGNORE_INDEX, device=cur_labels.device, dtype=cur_labels.dtype))
 
             cur_new_input_embeds = [x.to(self.device) for x in cur_new_input_embeds]
