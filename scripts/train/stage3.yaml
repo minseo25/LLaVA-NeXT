@@ -23,9 +23,17 @@ datasets:
   - json_path: /vlm/LLaVA-NeXT/json/ai-hub_k-food_caption.json
     sampling_strategy: "first:30%"
   - json_path: /vlm/LLaVA-NeXT/json/ai-hub_chart_caption-270k.json
-    sampling_strategy: "first:10%"
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-Next/json/ai-hub_chart_qa-270k_progress_85000.json
+    sampling_strategy: "first:15%"
   - json_path: /vlm/LLaVA-NeXT/json/ai-hub_table_caption-363k.json
-    sampling_strategy: "first:10%"
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/ai-hub_table_qa-363k_progress_80000.json
+    sampling_strategy: "first:15%"
+  - json_path: /vlm/LLaVA-NeXT/json/ai-hub_tourism-165k.json
+    sampling_strategy: "first:5%"
+  - json_path: /vlm/LLaVA-NeXT/json/ai-hub_tourism_qa_progress_85000.json
+    sampling_strategy: "first:15%"
   - json_path: /vlm/LLaVA-NeXT/json/llavar_gpt4_20k.json
     sampling_strategy: "first:5%"
   - json_path: /vlm/LLaVA-NeXT/json/sharegpt4o.json
@@ -52,3 +60,167 @@ datasets:
   #   sampling_strategy: "first:5%"
   # - json_path: /vlm/LLaVA-NeXT/json/korean_safe_conversation.json
   #   sampling_strategy: "first:5%"
+  # - json_path: /vlm/LLaVA-NeXT/json/ko-qarv-instruct-100k.json
+  #   sampling_strategy: "first: 5%"
+  - json_path: /vlm/LLaVA-NeXT/json/korean_food.json
+    sampling_strategy: "first:30%"
+  - json_path: /vlm/LLaVA-NeXT/json/korean_sumuk.json
+    sampling_strategy: "first:30%"
+  - json_path: /vlm/LLaVA-NeXT/json/KoreanImageCaptioningDataset.json
+    sampling_strategy: "first:20%"
+  - json_path: /vlm/LLaVA-NeXT/json/korean-image-caption-dataset.json
+    sampling_strategy: "first:30%"
+  - json_path: /vlm/LLaVA-NeXT/json/ai-hub_multilingual_OCR.json
+    sampling_strategy: "first:30%"
+
+# images not prepared in images/ folder yet
+  # - json_path: /vlm/LLaVA-NeXT/json/GEOS(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/GeoQA+(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/Geometry3K(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/IconQA(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/KoLLaVA-CC3M-Pretrain-595K.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/MapQA(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/PMC-VQA(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/Super-CLEVR(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/TabMWP(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/UniGeo(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/VizWiz(MathV360K).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/ai2d(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/ai2d(internvl).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/allava_instruct_laion4v.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/aokvqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/blip_laion_cc_sbu_558k.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/chartqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/chrome_writting.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/clevr(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/diagram_image_to_text(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/dvqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/figureqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/geo170k(qa).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/geo3k.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/geomverse(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/hateful_memes(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/hitab(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/hme100k.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/iam(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/iconqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/iiit5k.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/image_textualization(filtered).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/infographic_vqa.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/infographic_vqa_llava_format.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/intergps(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/k12_printing.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/kollava_v1_5_mix581k.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/kollava_v1_5_mix581k_.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/lrv_chart.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/magpie_pro(l3_80b_mt).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/magpie_pro(l3_80b_st).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/magpie_pro(qwen2_72b_st).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/mapqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/mathqa.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/mavis_math_metagen.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/mavis_math_rule_geo.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/multihiertt(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/orand_car_a.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/raven(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/robut_sqa(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/robut_wikisql(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/robut_wtq(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/scienceqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/scienceqa(nona_context).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/screen2words(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/sharegpt4v(coco).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/sharegpt4v(knowledge).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/sharegpt4v(llava).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/sharegpt4v(sam).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/sroie.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/st_vqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/tabmwp(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/tallyqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/textcaps.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/textocr(gpt4v).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/tqa(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/ureader_cap.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/ureader_ie.json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/vision_flan(filtered).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/vistext(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/visual7w(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/visualmrc(cauldron).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/vqarad(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/vsr(cauldron,llava_format).json
+  #   sampling_strategy: "first:10%"
+  # - json_path: /vlm/LLaVA-NeXT/json/websight(cauldron).json
+  #   sampling_strategy: "first:10%"
